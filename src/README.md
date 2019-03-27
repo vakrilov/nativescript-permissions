@@ -89,7 +89,7 @@ If you are granted and receive all permissions, then it will resolve with the gr
 So in the above example object, this would have been resolved to the failed promise because you failed to get the camera access.
 
 ## Notes
-Because this uses support.v4; this code works on ALL versions that nativescript supports currently.  So you can start coding this into your app at this point and your app should work on everything.
+Since version 2 - the plugin relies on AndroidX which has replaced android support library in NativeScript 6.0. If you are using an older version (<6.0.0) of NativeScript - use v1.x.x. of this plugin.
 
 You still need to put all the permissions you need in the manifest as usual, even on Android 6.    On Android 6 you ALSO must ask the user for permissions each time you go to do anything that needs a "dangerous" permission.  You can see all the permissions at [https://developer.android.com/reference/android/Manifest.permission.html](https://developer.android.com/reference/android/Manifest.permission.html).
 

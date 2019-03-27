@@ -85,10 +85,14 @@ exports.requestPermissions = request;
  * Checks to see if v4 is installed and has the proper calls with it
  * @returns {boolean}
  */
-function hasSupportVersion4() {
+function hasAndroidX() {
 	//noinspection JSUnresolvedVariable
-	if (!android.support || !android.support.v4 || !android.support.v4.content || !android.support.v4.content.ContextCompat || !android.support.v4.content.ContextCompat.checkSelfPermission) {
-		console.log("No v4 support");
+	if (!androidx || 
+		!androidx.core || 
+		!androidx.core.content || 
+		!androidx.core.content.ContextCompat || 
+		!androidx.core.content.ContextCompat.checkSelfPermission) {
+		console.log("No androidx support");
 		return false;
 	}
 	return true;
@@ -103,13 +107,13 @@ function hasSupportVersion4() {
 function hasPermission(perm) {
 	// If we don't have support v4 loaded; then we can't run any checks and have to assume
 	// that they have put the permission in the manifest and everything is good to go
-	if (!hasSupportVersion4()) return true;
+	if (!hasAndroidX()) return true;
 
 	// Check for permission
 	// Interesting, this actually works on API less than 23 and will return false if the manifest permission was forgotten...
 	//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 	var hasPermission = android.content.pm.PackageManager.PERMISSION_GRANTED ==
-		android.support.v4.content.ContextCompat.checkSelfPermission(getContext(), perm);
+		androidx.core.content.ContextCompat.checkSelfPermission(getContext(), perm);
 
 	return (hasPermission);
 }
@@ -182,7 +186,7 @@ function handleRequest(granted, failed, perms, explanation, permResults, permTra
 	for (var i = 0; i < totalCount; i++) {
 		if (permTracking[i] === false) {
 			//noinspection JSUnresolvedVariable,JSUnresolvedFunction
-			if (android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale(activity, perms[i])) {
+			if (androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale(activity, perms[i])) {
 				if (typeof explanation === "function") {
 					explanation();
 				} else if (explanation && explanation.length) {
@@ -212,6 +216,6 @@ function handleRequest(granted, failed, perms, explanation, permResults, permTra
 	pendingPromises[promiseId] = {granted: granted, failed: failed, results: permResults};
 
 	//noinspection JSUnresolvedVariable,JSUnresolvedFunction
-	android.support.v4.app.ActivityCompat.requestPermissions(activity, requestPerms, promiseId);
+	androidx.core.app.ActivityCompat.requestPermissions(activity, requestPerms, promiseId);
 
 }
